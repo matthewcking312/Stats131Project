@@ -1,0 +1,142 @@
+# Frist: Load in the example file
+filename = "/Users/MatthewKing/Desktop/Stats 131/Stats131Project/Review_Polarity Data/txt_sentoken/neg/cv000_29416.txt"
+
+def load_doc(filename):
+    # Opens file as read only (specified by 'r')
+    file = open(filename, 'r')
+    text = file.read()
+    file.close()
+    return text
+
+  from os import listdir
+
+ # Example for the negative reviews directory
+
+directory_neg = "/Users/MatthewKing/Desktop/Stats 131/Stats131Project/Review_Polarity Data/txt_sentoken/neg"
+for filename in listdir(directory_neg):
+    # If filename does not have '.txt' type specified, skip it
+    if not filename.endswith(".txt"):
+        continue
+    path = directory_neg + "/" + filename
+    doc_neg = load_doc(path)
+    print('Loaded %s' % filename)
+
+# Universal file extractor
+def doc_extract(directory):
+    for filename in listdir(directory):
+        # If filename does not have '.txt' type specified, skip it
+        if not filename.endswith(".txt"):
+            continue
+        path = directory + "/" + filename
+        doc_neg = load_doc(path)
+        print('Loaded %s' % filename)
+
+# Testing out doc extractor on positive review files
+doc_extract("/Users/MatthewKing/Desktop/Stats 131/Stats131Project/Review_Polarity Data/txt_sentoken/pos")
+
+
+# Cleaning the Data
+## Step 1: Implementing our Unigram Feature Model
+
+
+# Cleaning text example
+# First we load the document using our predefined "load_doc" function
+# Recall that this particular function focuses on a specific document as opposed to an entire directory of docs
+filename = "/Users/MatthewKing/Desktop/Stats 131/Stats131Project/Review_Polarity Data/txt_sentoken/neg/cv000_29416.txt"
+def load_doc(filename):
+    # Opens file as read only (specified by 'r')
+    file = open(filename, 'r')
+    text = file.read()
+    file.close()
+    return text
+
+doc1 = load_doc(filename)
+
+# Next we can use the "split()" function to separate and extract specific words by whitespace
+# As we are choosing Unigrams as our Feature Model of choice, this method is an efficient way to
+# extract individual words
+
+unigrams1 = doc1.split()
+print(unigrams1)
+
+## Step 2: Removing undesired characters/words
+
+# First we remove stop words (e.g. “the”, “a”, “an”, “in”)
+import nltk
+import string
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+stop_words = set(stopwords.words('english'))
+
+important_words = []
+for w in unigrams1:
+    if w not in stop_words:
+        important_words.append(w)
+print(important_words)
+
+def imp_words(words_list):
+    keep = []
+    stop_words = set(stopwords.words('english'))
+    for i in words_list:
+        if i not in stop_words:
+            keep.append(i)
+    return(keep)
+
+imp_words(unigrams1)
+
+import string
+# Next we remove any punctuation or numbers
+translator = str.maketrans('', '', string.punctuation)
+no_punc = [s.translate(translator) for s in important_words]
+print(no_punc)
+
+
+# General function for removing punctuations
+def non_punc(words_list):
+    no_punc = []
+    translator = str.maketrans('', '', string.punctuation) #don't replace anything, but remove punctuations
+    for s in words_list:
+        no_punc.append(s.translate(translator))
+    return(no_punc)
+
+# Removing non-alphabetic characters (example)
+alpha = []
+for i in no_punc:
+    if i.isalpha():
+        alpha.append(i)
+print(alpha)
+
+# General function for removing non-alphabetic tokens
+def alpha_func(words_list):
+    alpha = []
+    for i in words_list:
+        if i.isalpha():
+            alpha.append(i)
+    return(alpha)
+
+# Remove words with one character
+long = []
+for i in alpha:
+    if len(i)>1:
+        long.append(i)
+print(long)
+
+# General function for removing words with one character of length or less
+def long_func(words_list):
+    long = []
+    for i in words_list:
+        if len(i)>1:
+            long.append(i)
+    return(long)
+
+# Create general function for cleaning documents
+def clean_doc(doc1):
+    imp = imp_words(doc1)
+    nopun = non_punc(imp)
+    let = alpha_func(nopun)
+    long = long_func(let)
+    return(long)
+
+# Testing out clean_doc function
+clean_doc(unigrams1)
