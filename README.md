@@ -1,2 +1,4 @@
 # Stats131Project
-# Test Change
+# Yelp Review Sentiment Analysis
+
+## By Matthew King & Daniel Halteh
