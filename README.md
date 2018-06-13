@@ -10,3 +10,5 @@ Source: The data was found on University of California, Irvine's Machine Learnin
 Link: "https://archive.ics.uci.edu/ml/datasets/Sentiment+Labelled+Sentences"
 
 Presentation Slides: https://docs.google.com/presentation/d/1V9tGsZHreHeLbKOoQZnRuykxKEdL6Z6SWQIiB0VOsdU/edit?usp=sharing
+
+Video Presentation: https://photos.app.goo.gl/8CCit79ziyrk7YbRA
